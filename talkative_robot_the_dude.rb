@@ -1,4 +1,4 @@
-
+require 'pry'
 
 puts "What is your full name?"
  
@@ -7,7 +7,7 @@ user_full_name = gets.chomp
 user_first_name = user_full_name.split(" ").first
 #ask how old is the (user's first name only)
 
-user_last_name = user_full_name.split(" ").last
+user_last_name = user_full_name.split("").last
 #ask how old is the (user's first name only)
 
 puts "How old are you #{user_first_name}?"
@@ -20,9 +20,9 @@ years_til_75 = 75 - user_age
 
 current_year = 2014
 
-year_at_75 = current_year + years_til_75
+years_at_75 = current_year + years_til_75
 
-puts "You will be 75 years old in #{years_til_75} years which will put us at #{year_at_75}!\n"
+puts "You will be 75 years old in #{years_til_75} years which will put us at #{years_at_75}!\n"
 
 user_full_name.upcase!
 
@@ -42,14 +42,14 @@ case nickname_agreement
 	when "maybe"
 		puts "This is so like you \"The Dude\", not being able to decide...and to think I almost called you #{user_last_name}."
 	else 
-		puts "I'm sorry I could not understand you... typical of you \"the Dude\""
+		puts 'I\'m sorry I could not understand you... typical of you "the Dude"'
 	end
 
 puts %s(So "Dude", what's up?)
 
 puts "What is your favorite drink?"
 
-drink = gets.chomp.downcase
+drink = gets.chomp.downcase!
 
 puts "Keeping it classy i seeeee...one #{drink} coming right up!"
 
