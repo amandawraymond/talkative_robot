@@ -1,114 +1,117 @@
 require 'pry'
 
+def age_appropriate_sentence(age)
+	if age < 20
+		print "I can't believe you are so young!\n"
+	elsif age > 75
+		puts "Are you a grandparent?"
+		grandparent = gets.chomp.downcase
+	else
+		puts "You must be in your prime!"
+	end
+end
+
+def age_compared_to_me(age)
+	if age > 26
+		puts "It looks like you are older than me!!!"
+	elsif age < 26
+		puts "It looks like you are younger than me!!"
+	else 
+		puts "You might be the same age as me!?" 
+	end 
+end
+
+def nickname_answer(answer,full_name)
+	case answer
+		when "yes"
+			puts "Okay \"The Dude\" it is... I was going to just call #{full_name.chars[0]} but it doesnt seem to fit!"
+		when "no"
+			puts "Well #{full_name.split(" ").first} I am going to call you \"The Dude\" anyways..."
+		when "maybe"
+			puts "This is so like you \"The Dude\", not being able to decide...and to think I almost called you #{full_name.chars[0]}."
+		else 
+			puts 'I\'m sorry I could not understand you... typical of you "the Dude"'
+		end
+end
+
+def surname(user)
+	if user[:gender_short] == "f" && user[:marital_status_short] == "n"
+		puts "Hello Mrs.#{user[:last_name]}!"
+	elsif user[:gender_short] == "f" && user[:marital_status_short] == "y"
+		puts "Hello Miss.#{user[:last_name]}!"
+	elsif user[:gender_short] == "m"
+		puts "Hello Mr.#{user[:last_name]}!"
+	else
+		puts "Okay Human named #{user[:full_name]}, I won't ask you that question again!"
+	end
+end
+
+def dudes_favorite_movie
+	puts "Well I know your favorite movie is The Big Lebowski! \n\n"
+end
+
+user = {}
+
 puts "What is your full name?"
- 
-user_full_name = gets.chomp
- 
-user_first_name = user_full_name.split(" ").first
-#ask how old is the (user's first name only)
+user[:full_name] = gets.chomp
+user[:first_name] = user[:full_name].split(" ").first
+user[:last_name] = user[:full_name].split(" ").last
 
-user_last_name = user_full_name.split(" ").last
-#ask how old is the (user's first name only)
 
-puts " Are you a male or female homo sapien?"
-gender_full = gets.chomp.downcase
-gender_short = gender_full.chars.first
-
-puts (gender_short == "m") ? "sooo you're saying you are a male" : "So you're telling me you are a female"
+puts "Are you a male or female homo sapien?"
+user[:gender_full] = gets.chomp.downcase
+user[:gender_short] = user[:gender_full].chars.first
+puts (user[:gender_short] == "m") ? "sooo you're saying you are a male" : "So you're telling me you are a female"
 
 puts "Are you married?"
-marital_status = gets.chomp.downcase
-marital_status_short = marital_status.chars.first
+user[:marital_status] = gets.chomp.downcase
+user[:marital_status_short] = user[:marital_status].chars.first
 
+surname(user)
+ 
+puts "How old are you?"
+user[:age] = gets.chomp.to_i
+age_compared_to_me(user[:age])
+age_appropriate_sentence(user[:age])
 
-surname = "Mr." if gender_short == "m"
-
-surname = "Miss." if gender_short == "f" && marital_status_short == "n"
-
-surname = "Mrs." if gender_short == "f" && marital_status_short == "y"
-
-puts "How old are you #{surname}#{user_last_name}?"
-
-user_age = gets.chomp.to_i
-
-
-if user_age < 20
-	print "I can't believe you are #{user_age} years old!\n"
-elsif user_age > 75
-	puts "Are you a grandparent #{surname}#{user_last_name}?"
-	grandparent = gets.chomp.downcase
-else
-	puts "Yea, in your prime!"
-end
-
-case
-when user_age < 75
-	puts "#{surname}#{user_last_name} you are a young!"
-when user_age > 75 
-	puts "#{surname}#{user_last_name} you are a old!"
-else 
-	puts "#{surname}#{user_last_name}You are right at the cusp of being old!"
-end
-
-
-
-years_til_75 = 75 - user_age
-
+user[:years_til_75] = 75 - user[:age]
 current_year = 2014
-
-years_at_75 = current_year + years_til_75
-
-puts "You will be 75 years old in #{years_til_75} years which will put us at #{years_at_75}!\n" unless user_age > 75
-
-if years_at_75 < 2063
-	puts "It looks like you are older than me!!!"
-elsif years_at_75 > 2063
-	puts "It looks like you are younger than me!!"
-else 
-	puts "You might be the same age as me!?" 
-end 
-
-
-user_full_name.upcase!
-
-puts "Hey #{user_full_name}, where are you going? Don't leave yet!\n"
-
-first_initial = user_full_name.chars[0]
+user[:years_at_75] = current_year + user[:years_til_75]
+puts "You will be 75 years old in #{user[:years_til_75]} years which will put us at #{user[:years_at_75]}!\n" unless user[:age] > 75
+puts "Hey #{user[:full_name].upcase}, where are you going? Don't leave yet!\n"
 
 puts "Would you like me to give you a nickname? (yes, no, or maybe)"
-
-nickname_agreement = gets.chomp.downcase
-
-case nickname_agreement
-	when "yes"
-		puts "Okay \"The Dude\" it is... I was going to just call #{first_initial} but it doesnt seem to fit!"
-	when "no"
-		puts "Well #{user_first_name} I am going to call you \"The Dude\" anyways..."
-	when "maybe"
-		puts "This is so like you \"The Dude\", not being able to decide...and to think I almost called you #{user_last_name}."
-	else 
-		puts 'I\'m sorry I could not understand you... typical of you "the Dude"'
-	end
+user[:nickname_answer] = gets.chomp.downcase
+nickname_answer(user[:nickname_answer], user[:full_name])
 
 puts %s(So "Dude", what's up?)
 
 puts "What is your favorite drink?"
+user[:drink] = gets.chomp
+puts "Keeping it classy i seeeee..well I dont have that here. But I'll add it to my grocery list!\n\n"
 
-drink = gets.chomp.downcase
+grocery = ["peanut_butter", "apples", "chicken", "bread", "soda"]
+random_item = grocery.sample
+puts "I made a grocery list..I really really need to buy #{random_item}, so remind me!"
+puts "Wait! Did you already bought some #{random_item}?"
+random_item_bought = gets.chomp.downcase
+grocery.delete(random_item) if random_item_bought == "yes"
+puts "Okay! sounds good, I will try not to forget your #{user[:drink]}."
+grocery.unshift(user[:drink])
 
-puts "Keeping it classy i seeeee...one #{drink} coming right up!\n\n"
+
 
 puts "What do you do for recreation?"
+user[:recreation] = gets.chomp.downcase
+puts "Glad to hear you like #{user[:recreation]}, I thought you were going to say bowling! \n\n"
 
-recreation = gets.chomp.downcase
-
-puts "Glad to hear you like #{recreation}, I thought you were going to say bowling! \n\n"
-
-puts "Well I know your favorite movie is The Big Lebowski so I won't even ask. \n\n"
-
+dudes_favorite_movie
+	
 puts """And I know you are busy with your buisness, 
 lot of facets and interesting parties involved, 
 so I\'ll leave you to it the Dude. Keep abiding!"""
+
+
 
 
 
