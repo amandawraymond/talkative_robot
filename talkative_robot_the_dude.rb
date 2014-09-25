@@ -76,10 +76,6 @@ def surname(user)
 	end
 end
 
-def dudes_favorite_movie
-	puts "Well I know your favorite movie is The Big Lebowski! \n\n"
-end
-
 def user_compared_to_age_75(user)
 	user[:years_til_75] = 75 - user[:age]
 	user[:years_at_75] = 2014 + user[:years_til_75]
@@ -100,9 +96,10 @@ def grocery_question(user)
 	
 	random_item = grocery.sample
 	puts "I made a grocery list: #{grocery.join(", ")}..I really really need to buy #{random_item}, so remind me!"
-	puts "Wait! Did you already bought some #{random_item}?"
+	puts "Wait! Did you already buy some #{random_item}?"
 	random_item_bought = gets.chomp.downcase
-	grocery.delete(random_item) if random_item_bought == "yes"
+	random_item_bought_short = random_item_bought.chars.first
+	grocery.delete(random_item) if random_item_bought_short == "y"
 	
 	puts "Okay! sounds good, I will try not to forget your #{user[:drink]} when I go to the store later."
 	grocery.unshift(user[:drink])
@@ -117,10 +114,14 @@ def recreation_question(user)
 	puts "Glad to hear you like #{user[:recreation]}, I thought you were going to say bowling! \n\n"
 end
 
+def dudes_favorite_movie
+	puts "I know your favorite movie is The Big Lebowski so I won't even ask! \n\n"
+end
+
 def farewell_statement
 	puts """And I know you are busy with your buisness, 
 	lot of facets and interesting parties involved, 
-	so I\'ll leave you to it the Dude. Keep abiding!"""
+	so I'll leave you to it the Dude. Keep abiding!"""
 end
 
 
@@ -134,6 +135,10 @@ grocery_question(the_user)
 recreation_question(the_user)
 dudes_favorite_movie
 farewell_statement
+
+grocery_list = IO.read("grocery_list.txt").chomp.split(", ")
+grocery_list.map! {|item| item.downcase}
+IO.write("new_grocery_list.txt", grocery_list)
 
 
 
