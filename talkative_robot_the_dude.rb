@@ -99,13 +99,15 @@ def grocery_question(user)
 	grocery = ["peanut_butter", "apples", "chicken", "bread", "soda"]
 	
 	random_item = grocery.sample
-	puts "I made a grocery list..I really really need to buy #{random_item}, so remind me!"
+	puts "I made a grocery list: #{grocery.join(", ")}..I really really need to buy #{random_item}, so remind me!"
 	puts "Wait! Did you already bought some #{random_item}?"
 	random_item_bought = gets.chomp.downcase
 	grocery.delete(random_item) if random_item_bought == "yes"
 	
 	puts "Okay! sounds good, I will try not to forget your #{user[:drink]} when I go to the store later."
 	grocery.unshift(user[:drink])
+
+	puts "Checkout my grocery list to make sure I got it right: #{grocery.join(", ")}."
 
 end
 
