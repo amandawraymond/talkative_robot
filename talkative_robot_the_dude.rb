@@ -93,26 +93,26 @@ end
 
 def grocery_question(user)
 	
-	grocery = ["peanut butter", "apples", "chicken", "bread", "soda"]
+	grocery_list = ["peanut butter", "apples", "chicken", "bread", "soda"]
 	
-	grocery_list_transferred = IO.write("grocery_list.txt", grocery.join(", "))
-	grocery_list_pull_in = IO.read("grocery_list.txt").chomp.split(", ")
+	grocery_list= IO.write("grocery_list.txt", grocery_list.join(", "))
+	grocery_list = IO.read("grocery_list.txt").chomp.split(", ")
 	
-	random_item = grocery_list_pull_in.sample
-	puts "I made a grocery list: #{grocery_list_pull_in.join(", ")}..I really really need to buy #{random_item}, so remind me!"
+	random_item = grocery_list.sample
+	puts "I made a grocery list: #{grocery_list.join(", ")}..I really really need to buy #{random_item}, so remind me!"
 	puts "Wait! Did you already buy some #{random_item}?"
 	random_item_bought = gets.chomp.downcase
 	random_item_bought_short = random_item_bought.chars.first
-	grocery_list_pull_in.delete(random_item) if random_item_bought_short == "y"
+	grocery_list.delete(random_item) if random_item_bought_short == "y"
 	
 	puts "Okay! sounds good, I will try not to forget your #{user[:drink]} when I go to the store later."
-	grocery_list_pull_in.unshift(user[:drink])
+	grocery_list.unshift(user[:drink])
 
-	user[:grocery_list_final] = grocery_list_pull_in.each_index {|i| puts "Item #{i+1} -- #{grocery_list_pull_in[i]}"}
+	user[:grocery_list] = grocery_list.each_index {|i| puts "Item #{i+1} -- #{grocery_list[i]}"}
 
-	puts "Checkout my grocery list to make sure I got it right: #{user[:grocery_list_final]}."
+	puts "Checkout my grocery list to make sure I got it right: #{user[:grocery_list]}."
 
-	IO.write("grocery_list_2.txt", user[:grocery_list_final].join(", "))
+	IO.write("grocery_list_2.txt", user[:grocery_list].join(", "))
 end
  
 
@@ -133,14 +133,18 @@ def farewell_statement
 	so I'll leave you to it the Dude. Keep abiding!"""
 end
 
-def author_info(user, array_of_users)	
-	puts "I, Amanda Raymond, am the author of this program" if array_of_users.reject {|i| i[:full_name] != "Amanda Raymond"}
-	puts "And here is some information about me:"
+def select_by_name(array_of_users, full_name)
+	puts "Here is some information about:"
+	array_of_users.select {|i| puts i[:full_name] if i[:full_name	] == full_name }.first
 end
 
-def select_by_name(array_of_users, full_name)
-	array_of_users.select {|i| puts i if i[:first_name] == full_name }.first
+def author_info(person, array_of_persons)	
+	puts "(The author of this program)"
+	puts array_of_persons.reject { |person| person[:full_name] != "Amanda Raymond" }.first
+	
 end
+
+
 
 
 
@@ -170,8 +174,9 @@ grocery_question(the_user)
 recreation_question(the_user)
 dudes_favorite_movie
 farewell_statement
+select_by_name(people,author[:full_name])
 author_info(the_user, people)
-select_by_name(people,author[:first_name])
+
 
 
 
