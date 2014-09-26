@@ -1,5 +1,5 @@
-require 'pry'
 require 'csv'
+require 'pry'
 
 def get_user_info
 	user = {}
@@ -126,13 +126,18 @@ drink_question(the_user)
 	grocery_numbered_items_csv = []
 	grocery_list_pull_in.each_index do |i|
 		 # "#{i+1}, #{grocery_list_pull_in[i]}"
-			grocery_numbered_items_csv.push(["#{i+1}, #{grocery_list_pull_in[i]}"])
+			grocery_numbered_items_csv.push(["#{i+1}", "#{grocery_list_pull_in[i]}"])
 	end
 	# binding.pry
 	##want list to look like: [[1, item1],[2,item2]..]
 	
 	IO.write("grocery_list_csv_file.csv", grocery_numbered_items_csv)
-	grocery_numbered_items2_csv = CSV.read("grocery_list_csv_file.csv")
+	# grocery_numbered_items2_csv = CSV.read("grocery_list_csv_file.csv")
+	test_array_of_arrays = CSV.read("gerry_test.csv") # => works!
+	# To troubleshoot this, separate out the process of writing to an array and pulling from one
+	# To troubleshoot pulling, create a file similar to how I did with gerry_test.csv
+	# Note: I created this using MS Excel
+	binding.pry
  
 # end
 
