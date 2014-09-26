@@ -1,4 +1,5 @@
 require 'pry'
+require 'csv'
 
 def get_user_info
 	user = {}
@@ -131,7 +132,7 @@ drink_question(the_user)
 	##want list to look like: [[1, item1],[2,item2]..]
 	
 	IO.write("grocery_list_csv_file.csv", grocery_numbered_items_csv)
-
+	grocery_numbered_items2_csv = CSV.read("grocery_list_csv_file.csv")
  
 # end
 
