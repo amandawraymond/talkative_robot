@@ -108,11 +108,11 @@ def grocery_question(user)
 	puts "Okay! sounds good, I will try not to forget your #{user[:drink]} when I go to the store later."
 	grocery_list_pull_in.unshift(user[:drink])
 
-	grocery_list_final = grocery_list_pull_in.each_index {|i| puts "Item #{i+1} -- #{grocery_list_pull_in[i]}"}
+	user[:grocery_list_final] = grocery_list_pull_in.each_index {|i| puts "Item #{i+1} -- #{grocery_list_pull_in[i]}"}
 
-	puts "Checkout my grocery list to make sure I got it right: #{grocery_list_final}."
+	puts "Checkout my grocery list to make sure I got it right: #{user[:grocery_list_final]}."
 
-	IO.write("grocery_list_2.txt", grocery_list_final)
+	IO.write("grocery_list_2.txt", user[:grocery_list_final].join(", "))
 end
  
 
@@ -138,13 +138,29 @@ def author_info(user, array_of_users)
 	puts "And here is some information about me:"
 end
 
-def select_by_name(array_of_users, first_name, author_array)
-	array_of_users.select {|i| puts i if i[first_name] == author_array[first_name]}
+def select_by_name(array_of_users, full_name)
+	array_of_users.select {|i| puts i if i[:first_name] == full_name }.first
 end
 
 
 
 the_user = get_user_info
+
+author = { full_name: "Amanda Raymond", 
+	first_name: "Amanda", 
+	last_name: "Raymond", 
+	gender_full: "female", 
+	gender_short: "f", 
+	marital_status: "no", 
+	marital_status_short: "n", 
+	age: 26, 
+	nickname_answer: "yes",
+	nickname: "the Dude", drink: "Diet Coke",
+	recreation: "play soccer"
+}
+
+people = [the_user, author]
+
 surname(the_user)
 print_age_compared_to_me(the_user)
 print_age_appropriate_sentence(the_user)
@@ -154,11 +170,8 @@ grocery_question(the_user)
 recreation_question(the_user)
 dudes_favorite_movie
 farewell_statement
-author = { full_name: "Amanda Raymond", first_name: "Amanda", last_name: "Raymond", gender_full: "female", gender_short: "f", marital_status: "no", marital_status_short: "n", age: 26, nickname_answer: "yes", nickname: "the Dude", drink: "Diet Coke", recreation: "play soccer"}
-people = [the_user, author]
 author_info(the_user, people)
-people = [the_user, author]
-select_by_name(people,:first_name, author)
+select_by_name(people,author[:first_name])
 
 
 
