@@ -135,7 +135,7 @@ end
 
 def select_by_name(array_of_users, full_name)
 	puts "Here is some information about:"
-	array_of_users.select {|i| puts i[:full_name] if i[:full_name	] == full_name }.first
+	puts array_of_users.select { |person| person[:full_name] == full_name }.first.first
 end
 
 def author_info(person, array_of_persons)	
@@ -174,7 +174,7 @@ grocery_question(the_user)
 recreation_question(the_user)
 dudes_favorite_movie
 farewell_statement
-select_by_name(people,author[:full_name])
+select_by_name(people, author[:full_name])
 author_info(the_user, people)
 
 
