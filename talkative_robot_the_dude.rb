@@ -1,114 +1,185 @@
 require 'pry'
 
-puts "What is your full name?"
- 
-user_full_name = gets.chomp
- 
-user_first_name = user_full_name.split(" ").first
-#ask how old is the (user's first name only)
+def get_user_info
+	user = {}
+	
+	puts "What is your full name?"
+	user[:full_name] = gets.chomp
+	user[:first_name] = user[:full_name].split(" ").first
+	user[:last_name] = user[:full_name].split(" ").last
 
-user_last_name = user_full_name.split(" ").last
-#ask how old is the (user's first name only)
+	puts "Are you a male or female homo sapien?"
+	user[:gender_full] = gets.chomp.downcase
+	user[:gender_short] = user[:gender_full].chars.first
+	puts (user[:gender_short] == "m") ? "sooo you're saying you are a male" : "So you're telling me you are a female"
 
-puts " Are you a male or female homo sapien?"
-gender_full = gets.chomp.downcase
-gender_short = gender_full.chars.first
+	puts "Are you married?"
+	user[:marital_status] = gets.chomp.downcase
+	user[:marital_status_short] = user[:marital_status].chars.first
+	
 
-puts (gender_short == "m") ? "sooo you're saying you are a male" : "So you're telling me you are a female"
-
-puts "Are you married?"
-marital_status = gets.chomp.downcase
-marital_status_short = marital_status.chars.first
-
-
-surname = "Mr." if gender_short == "m"
-
-surname = "Miss." if gender_short == "f" && marital_status_short == "n"
-
-surname = "Mrs." if gender_short == "f" && marital_status_short == "y"
-
-puts "How old are you #{surname}#{user_last_name}?"
-
-user_age = gets.chomp.to_i
-
-
-if user_age < 20
-	print "I can't believe you are #{user_age} years old!\n"
-elsif user_age > 75
-	puts "Are you a grandparent #{surname}#{user_last_name}?"
-	grandparent = gets.chomp.downcase
-else
-	puts "Yea, in your prime!"
+	puts "How old are you?"
+	user[:age] = gets.chomp.to_i
+	
+	user
 end
 
-case
-when user_age < 75
-	puts "#{surname}#{user_last_name} you are a young!"
-when user_age > 75 
-	puts "#{surname}#{user_last_name} you are a old!"
-else 
-	puts "#{surname}#{user_last_name}You are right at the cusp of being old!"
-end
-
-
-
-years_til_75 = 75 - user_age
-
-current_year = 2014
-
-years_at_75 = current_year + years_til_75
-
-puts "You will be 75 years old in #{years_til_75} years which will put us at #{years_at_75}!\n" unless user_age > 75
-
-if years_at_75 < 2063
-	puts "It looks like you are older than me!!!"
-elsif years_at_75 > 2063
-	puts "It looks like you are younger than me!!"
-else 
-	puts "You might be the same age as me!?" 
-end 
-
-
-user_full_name.upcase!
-
-puts "Hey #{user_full_name}, where are you going? Don't leave yet!\n"
-
-first_initial = user_full_name.chars[0]
-
-puts "Would you like me to give you a nickname? (yes, no, or maybe)"
-
-nickname_agreement = gets.chomp.downcase
-
-case nickname_agreement
-	when "yes"
-		puts "Okay \"The Dude\" it is... I was going to just call #{first_initial} but it doesnt seem to fit!"
-	when "no"
-		puts "Well #{user_first_name} I am going to call you \"The Dude\" anyways..."
-	when "maybe"
-		puts "This is so like you \"The Dude\", not being able to decide...and to think I almost called you #{user_last_name}."
-	else 
-		puts 'I\'m sorry I could not understand you... typical of you "the Dude"'
+def print_age_appropriate_sentence(user)
+	if user[:age] < 20
+		print "I can't believe you are so young!\n"
+	elsif user[:age] > 75
+		puts "Are you a grandparent?"
+		grandparent = gets.chomp.downcase
+	else
+		puts "You must be in your prime!"
 	end
+end
 
-puts %s(So "Dude", what's up?)
+def print_age_compared_to_me(user)
+	if user[:age] > 26
+		puts "It looks like you are older than me!!!"
+	elsif user[:age] < 26
+		puts "It looks like you are younger than me!!"
+	else 
+		puts "You might be the same age as me!?" 
+	end 
+end
 
-puts "What is your favorite drink?"
+def nickname_question(user)
+	
+	puts "Would you like me to give you a nickname? (yes, no, or maybe)"
+	user[:nickname_answer] = gets.chomp.downcase
 
-drink = gets.chomp.downcase
+	case user[:nickname_answer]
+		when "yes"
+			puts "Okay \"The Dude\" it is... I was going to just call #{user[:full_name].chars[0]} but it doesnt seem to fit!"
+		when "no"
+			puts "Well #{user[:full_name].split(" ").first} I am going to call you \"The Dude\" anyways..."
+		when "maybe"
+			puts "This is so like you \"The Dude\", not being able to decide...and to think I almost called you #{user[:full_name].chars[0]}."
+		else 
+			puts 'You are being such a dude so I am going to call you "the Dude"'
+		end
+		user[:nickname] = "the Dude"
+		puts "Sooo #{user[:nickname]}, I am going to ask you a few more questions if you don't mind?"
+end
 
-puts "Keeping it classy i seeeee...one #{drink} coming right up!\n\n"
+def surname(user)
+	if user[:gender_short] == "f" && user[:marital_status_short] == "n"
+		puts "Well hello Mrs.#{user[:last_name] } who is #{user[:age]} years old!"
+	elsif user[:gender_short] == "f" && user[:marital_status_short] == "y"
+		puts "Well hello Miss.#{user[:last_name]} who is #{user[:age]} years old!"
+	elsif user[:gender_short] == "m"
+		puts "Well hello Mr.#{user[:last_name]} who is #{user[:age]} years old!"
+	else
+		puts "Okay Human named #{user[:full_name]} who is #{user[:age]} years old, I won't ask you that question again!"
+	end
+end
 
-puts "What do you do for recreation?"
+def user_compared_to_age_75(user)
+	user[:years_til_75] = 75 - user[:age]
+	user[:years_at_75] = 2014 + user[:years_til_75]
 
-recreation = gets.chomp.downcase
+	puts "You will be 75 years old in #{user[:years_til_75]} years which will put us at #{user[:years_at_75]}!\n" unless user[:age] > 75
+	
+	puts "Hey #{user[:full_name].upcase}, where are you going? Don't leave yet!\n"
+end
 
-puts "Glad to hear you like #{recreation}, I thought you were going to say bowling! \n\n"
+def drink_question(user)
+	puts "What is your favorite drink #{user[:nickname]}?"
+	user[:drink] = gets.chomp
+	puts "Keeping it classy i seeeee..well I dont have any #{user[:drink]} here. But I'll add it to my grocery list!\n\n"
+end
 
-puts "Well I know your favorite movie is The Big Lebowski so I won't even ask. \n\n"
+def grocery_question(user)
+	
+	grocery_list = ["peanut butter", "apples", "chicken", "bread", "soda"]
+	
+	grocery_list= IO.write("grocery_list.txt", grocery_list.join(", "))
+	grocery_list = IO.read("grocery_list.txt").chomp.split(", ")
+	
+	random_item = grocery_list.sample
+	puts "I made a grocery list: #{grocery_list.join(", ")}..I really really need to buy #{random_item}, so remind me!"
+	puts "Wait! Did you already buy some #{random_item}?"
+	random_item_bought = gets.chomp.downcase
+	random_item_bought_short = random_item_bought.chars.first
+	grocery_list.delete(random_item) if random_item_bought_short == "y"
+	
+	puts "Okay! sounds good, I will try not to forget your #{user[:drink]} when I go to the store later."
+	grocery_list.unshift(user[:drink])
 
-puts """And I know you are busy with your buisness, 
-lot of facets and interesting parties involved, 
-so I\'ll leave you to it the Dude. Keep abiding!"""
+	user[:grocery_list] = grocery_list.each_index {|i| puts "Item #{i+1} -- #{grocery_list[i]}"}
+
+	puts "Checkout my grocery list to make sure I got it right: #{user[:grocery_list]}."
+
+	IO.write("grocery_list_2.txt", user[:grocery_list].join(", "))
+end
+ 
+
+
+def recreation_question(user)
+	puts "What do you do for recreation?"
+	user[:recreation] = gets.chomp.downcase
+	puts "Glad to hear you like #{user[:recreation]}, I thought you were going to say bowling! \n\n"
+end
+
+def dudes_favorite_movie
+	puts "I know your favorite movie is The Big Lebowski so I won't even ask! \n\n"
+end
+
+def farewell_statement
+	puts """And I know you are busy with your buisness, 
+	lot of facets and interesting parties involved, 
+	so I'll leave you to it the Dude. Keep abiding!"""
+end
+
+def select_by_name(array_of_users, full_name)
+	puts "Here is some information about:"
+	puts array_of_users.select { |person| person[:full_name] == full_name }.first.first
+end
+
+def author_info(person, array_of_persons)	
+	puts "(The author of this program)"
+	puts array_of_persons.reject { |person| person[:full_name] != "Amanda Raymond" }.first
+	
+end
+
+
+
+
+
+the_user = get_user_info
+
+author = { full_name: "Amanda Raymond", 
+	first_name: "Amanda", 
+	last_name: "Raymond", 
+	gender_full: "female", 
+	gender_short: "f", 
+	marital_status: "no", 
+	marital_status_short: "n", 
+	age: 26, 
+	nickname_answer: "yes",
+	nickname: "the Dude", drink: "Diet Coke",
+	recreation: "play soccer"
+}
+
+people = [the_user, author]
+
+surname(the_user)
+print_age_compared_to_me(the_user)
+print_age_appropriate_sentence(the_user)
+nickname_question(the_user)
+drink_question(the_user)
+grocery_question(the_user)
+recreation_question(the_user)
+dudes_favorite_movie
+farewell_statement
+select_by_name(people, author[:full_name])
+author_info(the_user, people)
+
+
+
+
 
 
 
