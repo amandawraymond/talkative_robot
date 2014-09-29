@@ -82,13 +82,13 @@ class Person
 	end
 
 	def surname
-		puts (@gender == "m") ? "sooo you're saying you are a male" : "So you're telling me you are a female"
+		puts (@gender_short == "m") ? "sooo you're saying you are a male" : "So you're telling me you are a female"
 		
-			if @gender == "f" && @marital_status == "n"
+			if @gender_short == "f" && @marital_status == "n"
 				puts "Mrs.#{@last_name} I can see you are #{@age} years old!"
-			elsif @gender == "f" && @marital_status == "y"
+			elsif @gender_short == "f" && @marital_status == "y"
 				puts "Miss.#{@last_name} I can see you are #{@age} years old!"
-			elsif @gender == "m"
+			elsif @gender_short == "m"
 				puts "Mr.#{@last_name} I can see you are #{@age} years old!"
 			else
 				puts "#{@full_name} I can see you are #{@age} years old!"
@@ -104,14 +104,15 @@ class Person
 		puts "Hey #{@full_name.upcase}, where are you going? Don't leave yet!\n"
 	end
 
-	private
+	protected
 
 		def set_martial_status_short
 			@martial_status = @marital_status.downcase.chars.first
 		end
 
 		def set_gender_short
-			@gender = @gender.downcase.chars[0]
+			@gender= @gender.downcase
+			@gender_short = @gender.chars.first
 		end
 
 		def set_first_name
@@ -155,12 +156,8 @@ class GroceryList
  		@grocery_list = IO.read(text_file).chomp.split(", ")
 	end
 
-	
-	def produce_random_item
-		@random_item = @grocery_list.sample
-	end
-
 	def remind_me
+		produce_random_item
 		puts "I really really need to buy #{@random_item}, so remind me!"
 	end
 
@@ -203,6 +200,12 @@ class GroceryList
 			end
 		end
 	end
+	
+	protected
+
+		def produce_random_item
+			@random_item = @grocery_list.sample
+		end
 end
 
 
@@ -248,19 +251,13 @@ user_info = User.get_user_info
 @current_user = User.new(user_info)
 
 author_info = { full_name: "Amanda Raymond", 
-	first_name: "Amanda", 
-	last_name: "Raymond", 
-	gender_full: "female", 
-	gender_short: "f", 
-	marital_status: "no", 
-	marital_status_short: "n", 
+	gender: "female",  
+	marital_status: "no",  
 	age: 26, 
-	nickname_answer: "yes",
-	nickname: "the Dude", drink: "Diet Coke",
-	recreation: "play soccer"
+	nickname: "the Dude",
 }
 
-
+@author_me = Author.new(author_info)
 people = [user_info, author_info]
 
 @current_user.surname
@@ -269,7 +266,6 @@ people = [user_info, author_info]
 @current_user.nickname_question
 
 @our_grocery_list = GroceryList.new(@current_user)
-our_grocery_list.produce_random_item
 @our_grocery_list.remind_me
 @our_grocery_list.print_grocery_list
 @our_grocery_list.delete_random_item
