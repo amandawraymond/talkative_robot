@@ -118,16 +118,11 @@ def grocery_question(user)
 	   
 	   csv << ["Item Number", "Item Name"]
        	grocery_list.each_index do |i| 
-	   csv << [ "#{i+1}", "#{grocery_list[i]}"] 
-		
+	   csv << [ "#{i+1}", grocery_list[i]] 
+	   # grocery_list.each_index { |index| csv << [index + 1, grocery_list[index]] }
 		end
 	end
-	
-	
-	# movie_ranking = CSV.read("test_csv_read.csv") 
-	# movie_ranking.to_s
-	 
-end
+end	
 
 
 def recreation_question(user)
@@ -140,6 +135,17 @@ def dudes_favorite_movie
 	puts "I know your favorite movie is The Big Lebowski so I won't even ask! \n\n"
 end
 
+
+def read_csv
+ 	col_data = []
+ 	csv = CSV.foreach("test_csv_read.csv") do |row| # each row =  is actually columns in my mind
+ 		col_data << row[0] + "  " + row[1]
+ 	end
+ 	puts "Here is the author's ranking of movies:"
+ 	puts col_data
+ 	#if i didnt want the headers, I would do: col_data.shift then puts col_data
+end
+
 def farewell_statement
 	puts """And I know you are busy with your buisness, 
 	lot of facets and interesting parties involved, 
@@ -149,13 +155,11 @@ end
 def select_by_name(array_of_users, full_name)
 	puts "Here is all the information given about #{full_name}:"
 	puts array_of_users.select { |person| person[:full_name] == full_name }.first
-
 end
 
 def author_info(person, array_of_persons)	
 	puts "Here is the author's info:"
 	puts array_of_persons.reject { |person| person[:full_name] != "Amanda Raymond" }.first
-	
 end
 
 
@@ -183,11 +187,10 @@ print_age_compared_to_me(the_user)
 print_age_appropriate_sentence(the_user)
 nickname_question(the_user)
 drink_question(the_user)
-
-
 grocery_question(the_user)
 recreation_question(the_user)
 dudes_favorite_movie
+read_csv
 farewell_statement
 select_by_name(people,the_user[:full_name])
 author_info(author, people)
