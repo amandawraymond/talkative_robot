@@ -146,14 +146,16 @@ def farewell_statement
 	so I'll leave you to it the Dude. Keep abiding!"""
 end
 
-def author_info(user, array_of_users)	
-	puts "Here is some information about the author of this program:" 
-    puts array_of_users.reject { |person| person[:full_name] != "user[:full_name]" }
+def select_by_name(array_of_users, full_name)
+	puts "Here is all the information given about #{full_name}:"
+	puts array_of_users.select { |person| person[:full_name] == full_name }.first
+
 end
 
-def select_by_name(array_of_users, full_name)
-	puts "And here is some information about #{full_name}:"
-	puts array_of_users.select { |person| puts person[:full_name] == full_name }.first
+def author_info(person, array_of_persons)	
+	puts "Here is the author's info:"
+	puts array_of_persons.reject { |person| person[:full_name] != "Amanda Raymond" }.first
+	
 end
 
 
@@ -187,9 +189,8 @@ grocery_question(the_user)
 recreation_question(the_user)
 dudes_favorite_movie
 farewell_statement
-author_info(author, people)
 select_by_name(people,the_user[:full_name])
-
+author_info(author, people)
 
 
 
