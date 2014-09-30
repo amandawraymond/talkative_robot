@@ -143,11 +143,11 @@ class User < Person
 end
 
 class Author < Person
-	
+
 	def initialize(user)
 		super
 	end
-	
+
 	def self.define_author_hash
 
 	author_hash = { full_name: "Amanda Raymond", 
@@ -254,6 +254,7 @@ end
 def author_info(person, array_of_persons)	
 	puts "\nHere is the author's info:"
 	puts array_of_persons.reject { |person| person[:full_name] != "Amanda Raymond" }.first
+
 end
 
 def farewell_statement
@@ -293,6 +294,8 @@ read_csv("movie_rankings.csv")
 farewell_statement
 select_by_name(people, user_info[:full_name])
 author_info(author_info, people)
+
+
 
 
 
