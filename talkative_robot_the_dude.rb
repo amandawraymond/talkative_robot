@@ -98,7 +98,9 @@ def grocery_question(user)
 	
 	grocery_list = ["peanut butter", "apples", "chicken", "bread", "soda"]
 	
+
 	grocery_list = IO.write("grocery_list.txt", grocery_list.join(", "))
+
 	grocery_list = IO.read("grocery_list.txt").chomp.split(", ")
 	
 	random_item = grocery_list.sample
@@ -160,7 +162,10 @@ end
 def author_info(person, array_of_persons)	
 	puts "Here is the author's info:"
 	puts array_of_persons.reject { |person| person[:full_name] != "Amanda Raymond" }.first
+
 end
+
+
 
 
 
@@ -192,8 +197,10 @@ recreation_question(the_user)
 dudes_favorite_movie
 read_csv
 farewell_statement
+
 select_by_name(people,the_user[:full_name])
 author_info(author, people)
+
 
 
 
