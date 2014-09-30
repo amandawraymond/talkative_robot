@@ -10,7 +10,8 @@ class Person
 		@marital_status 	  = user[:marital_status]
 		@age 				  = user[:age]
 		@nickname             = user[:nickname]
-		set_martial_status_short
+		@recreation 		  = recreation
+		set_marital_status_short
 		set_gender_short
 		set_first_name
 		set_last_name
@@ -104,10 +105,16 @@ class Person
 		puts "Hey #{@full_name.upcase}, where are you going? Don't leave yet!\n"
 	end
 
+	def recreation_question
+		puts "What do you do for recreation?"
+		@recreation = gets.chomp.downcase
+		puts "Glad to hear you like #{@recreation}, I thought you were going to say bowling! \n\n"
+	end
+
 	protected
 
 		def set_martial_status_short
-			@martial_status = @marital_status.downcase.chars.first
+			@marital_status = @marital_status.downcase.chars.first
 		end
 
 		def set_gender_short
@@ -136,9 +143,39 @@ class User < Person
 end
 
 class Author < Person
+	
 	def initialize(user)
 		super
 	end
+	
+	def self.define_author_hash
+
+	author_hash = { full_name: "Amanda Raymond", 
+		gender: "female",  
+		marital_status: "no",  
+		age: 26, 
+		nickname: "the Dude",
+	}
+	
+	end
+end
+
+class Movies
+	
+	def initialize
+	end
+
+	def self.dudes_favorite_movie
+		puts "I know your favorite movie is The Big Lebowski so I won't even ask! \n\n"
+	end
+
+	def self.read_csv(csv_file)
+	 	col_data = []
+	 	csv = CSV.foreach(csv_file) do |row| # each row =  is actually columns in my mind
+	 		col_data << row[0] + "  " + row[1]
+	 	end
+	 	col_data
+	 end
 end
 
 
@@ -204,28 +241,9 @@ class GroceryList
 	protected
 
 		def produce_random_item
-			@random_item = @grocery_list.sample
+			@random_item ||= @grocery_list.sample
 		end
 end
-
-
-def recreation_question
-	puts "What do you do for recreation?"
-	recreation = gets.chomp.downcase
-	puts "Glad to hear you like #{recreation}, I thought you were going to say bowling! \n\n"
-end
-
-def dudes_favorite_movie
-	puts "I know your favorite movie is The Big Lebowski so I won't even ask! \n\n"
-end
-
-def read_csv(csv_file)
- 	col_data = []
- 	csv = CSV.foreach(csv_file) do |row| # each row =  is actually columns in my mind
- 		col_data << row[0] + "  " + row[1]
- 	end
- 	puts col_data
- end
 
 
 def select_by_name(array_of_users, full_name)
@@ -250,13 +268,7 @@ end
 user_info = User.get_user_info
 @current_user = User.new(user_info)
 
-author_info = { full_name: "Amanda Raymond", 
-	gender: "female",  
-	marital_status: "no",  
-	age: 26, 
-	nickname: "the Dude",
-}
-
+author_info = Author.define_author_hash
 @author_me = Author.new(author_info)
 people = [user_info, author_info]
 
